@@ -3,6 +3,7 @@ import Login from "pages/Login";
 import Feira from "./pages/Feira/index";
 import Carrinho from "pages/Carrinho";
 import { UsuarioProvider } from "common/context/Usuario";
+import { CarrinhoProvider } from "common/context/Carrinho";
 
 function Router() {
   return (
@@ -12,9 +13,11 @@ function Router() {
           <Route exact path="/">
             <Login />
           </Route>
-          <Route exact path="/feira">
-            <Feira />
-          </Route>
+          <CarrinhoProvider>
+            <Route exact path="/feira">
+              <Feira />
+            </Route>
+          </CarrinhoProvider>
         </UsuarioProvider>
         <Route path="/carrinho">
           <Carrinho />
