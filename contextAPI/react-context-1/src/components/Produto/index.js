@@ -1,30 +1,21 @@
-import { Container } from './styles';
-import { memo } from 'react';
-import { IconButton } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
-import { useCarrinhoContext } from 'common/context/Carrinho';
+import { Container } from "./styles";
+import { memo } from "react";
+import { IconButton } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+import { useCarrinhoContext } from "common/context/Carrinho";
 
-
-function Produto({
-  nome,
-  foto,
-  id,
-  valor,
-  unidade
-}) {
-
+function Produto({ nome, foto, id, valor, unidade }) {
   const { carrinho, adicionarProduto, removeProduto } = useCarrinhoContext();
 
-  const produtoNoCarrinho = carrinho.find(itemDoCarrinho => itemDoCarrinho.id === id)
+  const produtoNoCarrinho = carrinho.find(
+    (itemDoCarrinho) => itemDoCarrinho.id === id
+  );
 
   return (
     <Container>
       <div>
-        <img
-          src={`/assets/${foto}.png`}
-          alt={`foto de ${nome}`}
-        />
+        <img src={`/assets/${foto}.png`} alt={`foto de ${nome}`} />
         <p>
           {nome} - R$ {valor?.toFixed(2)} <span>Kg</span>
         </p>
@@ -32,18 +23,21 @@ function Produto({
       <div>
         <IconButton
           color="secondary"
-          onClick={() => removeProduto({ nome, foto, id, valor })}
-          disabled={produtoNoCarrinho?.quantidade === 0}
+          disabled={!produtoNoCarrinho}
+          onClick={() => removeProduto(id)}
         >
           <RemoveIcon />
         </IconButton>
         {produtoNoCarrinho?.quantidade || 0}
-        <IconButton onClick={() => adicionarProduto({ nome, foto, id, valor })}>
+        <IconButton
+          color="primary"
+          onClick={() => adicionarProduto({ nome, foto, id, valor })}
+        >
           <AddIcon />
         </IconButton>
       </div>
-    </Container >
-  )
+    </Container>
+  );
 }
 
-export default memo(Produto)
+export default memo(Produto);
